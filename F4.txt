@@ -1,0 +1,3 @@
+Physics 100 50 20.
+Information 30 10
+PE 30

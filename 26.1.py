@@ -1,28 +1,49 @@
-list1 = set("1234567890")
-list2 = set("ABCDEFGHIJKLMNHOPQRSTUVWXYZ")
-list3 = set("abcdefghijklmnhopqrstuvwxyz")
-new_set = set()
-password = str(input("Введите пароль :\n"))
-print(list1)
-print(list2)
-print(list3)
+# Создаем и открываем файл F1 для записи
+with open("F1.txt", "w") as f1:
+    print("Введите данные построчно (пустая строка для завершения ввода):")
 
+    # Ввод данных пользователем и запись их в файл F1
+    while True:
+        line = input()
+        if not line:
+            break
+        f1.write(line + "\n")
 
-def is_password_good(password):
-    try:
-        if len(password) < 8:
-            raise Exception("Пароль должен содержать не менее 8 символов.")
-        if not any(char in list2 for char in password):
-            raise Exception("Пароль должен содержать хотя бы одну заглавную букву.")
-        if not any(char in list1 for char in password):
-            raise Exception("Пароль должен содержать хотя бы одну цифру.")
-        return True
-    except Exception as e:
-        print("Проверка пароля не удалась:", e)
-        return False
-    finally:
-        print("Блок try завершил выполнение")
-    print("Завершение программы")
+# Создаем и открываем файл F2 для записи
+with open("F2.txt", "w") as f2:
+    # Открываем файл F1 для чтения
+    with open("F1.txt", "r") as f1:
+        for line in f1:
+            words = line.split()
+            duplicate_words = set()
 
+            for word in words:
+                if words.count(word) >= 2:
+                    duplicate_words.add(word)
 
-print(is_password_good(password))
+            # Если в строке есть хотя бы два одинаковых слова, записываем ее в файл F2
+            if len(duplicate_words) >= 2:
+                f2.write(line)
+
+# Открываем файл F2 для определения номера слова с наибольшим количеством цифр
+with open("F2.txt", "r") as f2:
+    lines = f2.readlines()
+    max_digit_count = 0
+    word_number = -1
+
+    for line in lines:
+        words = line.split()
+
+        for i, word in (words):
+            digit_count = sum(c.isdigit() for c in word)
+
+            if digit_count > max_digit_count:
+                max_digit_count = digit_count
+                word_number = i
+
+    if word_number != -1:
+        print(f"Номер слова с наибольшим количеством цифр: {word_number + 1}")
+    else:
+        print("В файле F2 нет строк с двумя одинаковыми словами.")
+
+print("Программа завершена.")

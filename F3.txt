@@ -1,0 +1,4 @@
+Car(black) 50
+GameBoys 40
+Cards(pink) 70
+Ball(orange) 30

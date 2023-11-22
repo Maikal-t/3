@@ -1,41 +1,17 @@
-n = int(input("Введите количество строк:\n"))
-m = int(input("Введите количество столбцов:\n"))
-matrix = []
+# Инициализируем переменную для суммы
+total_cost = 0
 
-try:
-    for i in range(n):
-        row = []
-        for j in range(m):
-            element = int(input(f"Введите элемент [{i+1}][{j+1}]: "))
-            row.append(element)
-        matrix.append(row)
-except ValueError:
-    print("Ошибка: Введен некорректный элемент матрицы. Пожалуйста, введите целое число.")
+# Создаем пустой словарь
+w = {}
 
-print("Матрица:")
-for row in matrix:
-    print(row)
+# Открываем файл для чтения
+with open("F4.txt", "r") as file:
+    # Читаем строки из файла
+    for line in file:
+        parts = line.split()
+        o = parts[0]
+        values = list(map(float, parts[1:4]))  # Преобразуем строки в числа
+        total_subject_cost = sum(values)  # Вычисляем сумму значений
+        w[o] = total_subject_cost  # Сохраняем сумму в словаре
 
-print("Функция заполнит матрицу символами % и & в шахматном порядке. В левом верхнем углу будет стоять точка.")
-sim1 = "%"
-sim2 = "&"
-
-def matr(row, n, m, matrix):
-    print("Обработанная матрица:")
-    for i in range(n):
-        for j in range(m):
-            if i == j:
-                matrix[i][j] = sim1
-            elif (i + j) % 2 == 0:
-                matrix[i][j] = sim1
-            if (i + j) % 2 != 0:
-                matrix[i][j] = sim2
-    for row in matrix:
-        print(row)
-    tochka = "."
-    matrix[0][0] = tochka
-    print("Конечная матрица:")
-    for row in matrix:
-        print(row)
-
-matr(matrix, n, m, matrix)
+print(w)
